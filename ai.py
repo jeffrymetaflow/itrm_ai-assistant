@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+import os
 from intent_classifier import classify_intent
 from langchain.agents import initialize_agent, AgentType
 from langchain_openai import OpenAI
@@ -17,9 +18,12 @@ except KeyError as e:
     st.error(f"Missing secret key: {e}")
     st.stop()
 
+# --- Set environment variable for Tavily ---
+os.environ["TAVILY_API_KEY"] = tavily_key
+
 # --- Initialize LangChain Web Agent ---
 llm = OpenAI(temperature=0, api_key=openai_key)
-search_tool = TavilySearchResults(api_key=tavily_key)
+search_tool = TavilySearchResults()
 agent = initialize_agent(
     tools=[search_tool],
     llm=llm,
