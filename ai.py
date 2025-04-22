@@ -2,7 +2,7 @@ import streamlit as st
 import openai
 from intent_classifier import classify_intent
 from langchain.agents import initialize_agent, AgentType
-from langchain.llms import OpenAI
+from langchain_openai import OpenAI
 from langchain.tools.tavily_search import TavilySearchResults
 
 st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
