@@ -28,7 +28,8 @@ agent = initialize_agent(
     tools=[search_tool],
     llm=llm,
     agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-    verbose=False
+    verbose=False,
+    handle_parsing_errors=True
 )
 
 def query_langchain_product_agent(prompt):
@@ -112,4 +113,3 @@ if st.button("Submit"):
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
-
