@@ -124,11 +124,11 @@ if st.button("Submit"):
                     "Slightly lower"
                 ]
             })
-            response = raw_response + "
+            response = raw_response + "\n\nFeel free to ask: 'Which is better for hybrid workloads?' or 'Compare with Pure Storage'"
 
 Feel free to ask: 'Which is better for hybrid workloads?' or 'Compare with Pure Storage'"
         else:
-            response = raw_response + "
+            response = raw_response + "\n\nFeel free to ask: 'Which is better for hybrid workloads?' or 'Compare with Pure Storage'"
 
 Feel free to ask: 'Which is better for hybrid workloads?' or 'Compare with Pure Storage'"
         else:
