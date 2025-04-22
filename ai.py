@@ -69,12 +69,23 @@ def analyze_product(prompt):
             return f"You asked about **{product}** in the **{info['category']}** category. Here are some alternatives:\n" + "\n".join(alt_lines)
     return "I couldn't find that product in my comparison database yet. Try another brand or category."
 
+# --- Extend classifier fallback logic ---
+def fallback_classifier(prompt):
+    fallback_keywords = ["compare", "alternative", "better than", "replace", "options", "suggest"]
+    for keyword in fallback_keywords:
+        if keyword in prompt.lower():
+            return "analyze_product"
+    return "unknown"
+
 # --- Prompt Input ---
 st.subheader("\U0001F4AC Ask me anything about your IT strategy")
 user_prompt = st.text_input("Type your question or command:", "What is my current IT spend?")
 
 if st.button("Submit"):
     action = classify_intent(user_prompt)
+    if action == "unknown":
+        action = fallback_classifier(user_prompt)
+
     if action == "adjust_category_forecast":
         response = adjust_category_forecast(user_prompt)
     elif action == "report_summary":
@@ -95,6 +106,7 @@ if st.button("Submit"):
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
+
 
 
 
