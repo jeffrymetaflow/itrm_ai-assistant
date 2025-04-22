@@ -3,7 +3,7 @@ import openai
 from intent_classifier import classify_intent
 from langchain.agents import initialize_agent, AgentType
 from langchain_openai import OpenAI
-from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_community.tools.tavily_search.tool import TavilySearchResults
 
 st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
 st.title("\U0001F916 ITRM Conversational AI Assistant")
