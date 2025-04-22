@@ -1,9 +1,28 @@
 import streamlit as st
 import openai
 from intent_classifier import classify_intent
+from langchain.agents import initialize_agent, AgentType
+from langchain.llms import OpenAI
+from langchain.tools.tavily_search import TavilySearchResults
 
 st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
 st.title("\U0001F916 ITRM Conversational AI Assistant")
+
+# --- Initialize LangChain Web Agent ---
+llm = OpenAI(temperature=0)
+search_tool = TavilySearchResults(api_key="your_tavily_api_key")
+agent = initialize_agent(
+    tools=[search_tool],
+    llm=llm,
+    agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+    verbose=False
+)
+
+def query_langchain_product_agent(prompt):
+    try:
+        return agent.run(prompt)
+    except Exception as e:
+        return f"Error fetching product info: {str(e)}"
 
 # --- Placeholder Simulated State (would be tied to real modules later) ---
 session_state = {
@@ -15,24 +34,6 @@ session_state = {
     "Cybersecurity": 220000,
     "BC/DR": 140000,
     "Revenue": 100_000_000
-}
-
-# --- Simulated Marketplace Product Map (could expand this later) ---
-product_comparisons = {
-    "NetApp": {
-        "category": "Storage",
-        "alternatives": [
-            {"name": "Dell PowerStore", "cost": "$$", "performance": "High", "notes": "Subscription model, 30PB capacity"},
-            {"name": "Pure Storage FlashArray", "cost": "$$$", "performance": "Very High", "notes": "Great deduplication and TCO"}
-        ]
-    },
-    "Cisco Umbrella": {
-        "category": "Cloud Security",
-        "alternatives": [
-            {"name": "Zscaler Internet Access", "cost": "$$$", "performance": "Excellent", "notes": "Full SASE framework"},
-            {"name": "Palo Alto Prisma Access", "cost": "$$", "performance": "Very Good", "notes": "Strong for hybrid workforces"}
-        ]
-    }
 }
 
 # --- Sample Simulated Actions ---
@@ -60,14 +61,6 @@ def show_risk_insight(prompt):
 
 def optimize_margin(prompt):
     return "To improve margin by 2%, consider reducing Personnel and Maintenance by 5% each."
-
-def analyze_product(prompt):
-    for product, info in product_comparisons.items():
-        if product.lower() in prompt.lower():
-            alt_lines = [f"- {alt['name']}: Cost = {alt['cost']}, Performance = {alt['performance']} ({alt['notes']})"
-                         for alt in info["alternatives"]]
-            return f"You asked about **{product}** in the **{info['category']}** category. Here are some alternatives:\n" + "\n".join(alt_lines)
-    return "I couldn't find that product in my comparison database yet. Try another brand or category."
 
 # --- Extend classifier fallback logic ---
 def fallback_classifier(prompt):
@@ -97,7 +90,7 @@ if st.button("Submit"):
     elif action == "optimize_margin":
         response = optimize_margin(user_prompt)
     elif action == "analyze_product":
-        response = analyze_product(user_prompt)
+        response = query_langchain_product_agent(user_prompt)
     else:
         response = "I'm not sure how to help with that yet, but I'm learning!"
 
@@ -106,7 +99,6 @@ if st.button("Submit"):
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
-
 
 
 
