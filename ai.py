@@ -3,7 +3,7 @@ import openai
 import os
 from intent_classifier import classify_intent
 from langchain.agents import initialize_agent, AgentType
-from langchain_openai import OpenAI
+from langchain_openai import ChatOpenAI
 from langchain_community.tools.tavily_search.tool import TavilySearchResults
 from langchain_core.callbacks.manager import CallbackManagerForToolRun
 
@@ -22,7 +22,7 @@ except KeyError as e:
 os.environ["TAVILY_API_KEY"] = tavily_key
 
 # --- Initialize LangChain Web Agent ---
-llm = OpenAI(model="gpt-3.5-turbo", temperature=0, api_key=openai_key)
+llm = ChatOpenAI(model="gpt-3.5-turbo", temperature=0, api_key=openai_key)
 search_tool = TavilySearchResults()
 agent = initialize_agent(
     tools=[search_tool],
@@ -112,3 +112,4 @@ if st.button("Submit"):
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
+
