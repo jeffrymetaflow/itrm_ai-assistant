@@ -4,3 +4,5 @@ pandas
 plotly
 langchain
 tavily-python
+langchain_openai
+tavily-python
