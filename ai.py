@@ -128,6 +128,10 @@ if st.button("Submit"):
 
 Feel free to ask: 'Which is better for hybrid workloads?' or 'Compare with Pure Storage'"
         else:
+            response = raw_response + "
+
+Feel free to ask: 'Which is better for hybrid workloads?' or 'Compare with Pure Storage'"
+        else:
             response = raw_response
     else:
         response = "I'm not sure how to help with that yet, but I'm learning!"
