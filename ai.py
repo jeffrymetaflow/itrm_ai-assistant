@@ -9,8 +9,8 @@ st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
 st.title("\U0001F916 ITRM Conversational AI Assistant")
 
 # --- Initialize LangChain Web Agent ---
-llm = OpenAI(temperature=0)
-search_tool = TavilySearchResults(api_key="your_tavily_api_key")
+llm = OpenAI(temperature=0, api_key=st.secrets["openai_api_key"])
+search_tool = TavilySearchResults(api_key=st.secrets["tavily_api_key"])
 agent = initialize_agent(
     tools=[search_tool],
     llm=llm,
@@ -99,6 +99,4 @@ if st.button("Submit"):
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
-
-
 
