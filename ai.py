@@ -3,7 +3,7 @@ import openai
 from intent_classifier import classify_intent
 from langchain.agents import initialize_agent, AgentType
 from langchain_openai import OpenAI
-from langchain.tools.tavily_search import TavilySearchResults
+from langchain_community.tools.tavily_search import TavilySearchResults
 
 st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
 st.title("\U0001F916 ITRM Conversational AI Assistant")
@@ -99,4 +99,3 @@ if st.button("Submit"):
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
-
