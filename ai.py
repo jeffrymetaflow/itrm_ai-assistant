@@ -81,6 +81,8 @@ if st.button("Submit"):
 
     st.success(response)
 
+from intent_classifier import classify_intent
+
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
