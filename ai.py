@@ -19,8 +19,7 @@ except KeyError as e:
 
 # --- Initialize LangChain Web Agent ---
 llm = OpenAI(temperature=0, api_key=openai_key)
-search_tool = TavilySearchResults()
-search_tool.api_key = tavily_key  # workaround for updated LangChain compatibility
+search_tool = TavilySearchResults(api_key=tavily_key)
 agent = initialize_agent(
     tools=[search_tool],
     llm=llm,
