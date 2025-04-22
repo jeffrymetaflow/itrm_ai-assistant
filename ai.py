@@ -4,6 +4,7 @@ from intent_classifier import classify_intent
 from langchain.agents import initialize_agent, AgentType
 from langchain_openai import OpenAI
 from langchain_community.tools.tavily_search.tool import TavilySearchResults
+from langchain_core.callbacks.manager import CallbackManagerForToolRun
 
 st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
 st.title("\U0001F916 ITRM Conversational AI Assistant")
@@ -18,7 +19,8 @@ except KeyError as e:
 
 # --- Initialize LangChain Web Agent ---
 llm = OpenAI(temperature=0, api_key=openai_key)
-search_tool = TavilySearchResults(api_key=tavily_key)
+search_tool = TavilySearchResults()
+search_tool.api_key = tavily_key  # workaround for updated LangChain compatibility
 agent = initialize_agent(
     tools=[search_tool],
     llm=llm,
