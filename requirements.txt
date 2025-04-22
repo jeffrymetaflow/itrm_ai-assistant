@@ -6,3 +6,5 @@ langchain
 tavily-python
 langchain_openai
 tavily-python
+langchain_community
+
