@@ -22,7 +22,7 @@ except KeyError as e:
 os.environ["TAVILY_API_KEY"] = tavily_key
 
 # --- Initialize LangChain Web Agent ---
-llm = OpenAI(temperature=0, api_key=openai_key)
+llm = OpenAI(model="gpt-3.5-turbo", temperature=0, api_key=openai_key)
 search_tool = TavilySearchResults()
 agent = initialize_agent(
     tools=[search_tool],
