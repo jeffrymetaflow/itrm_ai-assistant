@@ -1,5 +1,6 @@
 import streamlit as st
 import openai
+from intent_classifier import classify_intent
 
 st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
 st.title("\U0001F916 ITRM Conversational AI Assistant")
@@ -81,7 +82,7 @@ if st.button("Submit"):
 
     st.success(response)
 
-from intent_classifier import classify_intent
+
 
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
