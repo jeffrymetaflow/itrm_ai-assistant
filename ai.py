@@ -104,7 +104,31 @@ if st.button("Submit"):
     elif action == "optimize_margin":
         response = optimize_margin(user_prompt)
     elif action == "analyze_product":
-        response = query_langchain_product_agent(user_prompt)
+        raw_response = query_langchain_product_agent(user_prompt)
+        if "Dell" in raw_response and "NetApp" in raw_response:
+            st.markdown("### Product Comparison Table")
+            st.table({
+                "Feature": ["Focus", "Top Product", "Performance", "Pricing", "Gartner Rating"],
+                "NetApp": [
+                    "Data infrastructure & cloud",
+                    "AFF series",
+                    "Exceptional speed, cutting-edge flash",
+                    "Higher cost",
+                    "Slightly higher"
+                ],
+                "Dell EMC": [
+                    "PCs, servers, storage",
+                    "PowerMax",
+                    "Ultra-low latency, high IOPS",
+                    "More competitive",
+                    "Slightly lower"
+                ]
+            })
+            response = raw_response + "
+
+Feel free to ask: 'Which is better for hybrid workloads?' or 'Compare with Pure Storage'"
+        else:
+            response = raw_response
     else:
         response = "I'm not sure how to help with that yet, but I'm learning!"
 
