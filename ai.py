@@ -8,9 +8,17 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 st.set_page_config(page_title="ITRM AI Assistant", layout="wide")
 st.title("\U0001F916 ITRM Conversational AI Assistant")
 
+# --- Load API Keys with Fallback ---
+try:
+    openai_key = st.secrets["openai_api_key"]
+    tavily_key = st.secrets["tavily_api_key"]
+except KeyError as e:
+    st.error(f"Missing secret key: {e}")
+    st.stop()
+
 # --- Initialize LangChain Web Agent ---
-llm = OpenAI(temperature=0, api_key=st.secrets["openai_api_key"])
-search_tool = TavilySearchResults(api_key=st.secrets["tavily_api_key"])
+llm = OpenAI(temperature=0, api_key=openai_key)
+search_tool = TavilySearchResults(api_key=tavily_key)
 agent = initialize_agent(
     tools=[search_tool],
     llm=llm,
