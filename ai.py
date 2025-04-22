@@ -17,23 +17,23 @@ session_state = {
     "Revenue": 100_000_000
 }
 
-# --- Simple Prompt-to-Action Map ---
-intent_map = {
-    "adjust": "adjust_category_forecast",
-    "increase": "adjust_category_forecast",
-    "decrease": "adjust_category_forecast",
-    "what": "report_summary",
-    "show": "report_summary",
-    "recommend": "recommend_action",
-    "risk": "show_risk_insight",
-    "margin": "optimize_margin"
+# --- Simulated Marketplace Product Map (could expand this later) ---
+product_comparisons = {
+    "NetApp": {
+        "category": "Storage",
+        "alternatives": [
+            {"name": "Dell PowerStore", "cost": "$$", "performance": "High", "notes": "Subscription model, 30PB capacity"},
+            {"name": "Pure Storage FlashArray", "cost": "$$$", "performance": "Very High", "notes": "Great deduplication and TCO"}
+        ]
+    },
+    "Cisco Umbrella": {
+        "category": "Cloud Security",
+        "alternatives": [
+            {"name": "Zscaler Internet Access", "cost": "$$$", "performance": "Excellent", "notes": "Full SASE framework"},
+            {"name": "Palo Alto Prisma Access", "cost": "$$", "performance": "Very Good", "notes": "Strong for hybrid workforces"}
+        ]
+    }
 }
-
-def classify_intent(prompt):
-    for keyword in intent_map:
-        if keyword in prompt.lower():
-            return intent_map[keyword]
-    return "unknown"
 
 # --- Sample Simulated Actions ---
 def adjust_category_forecast(prompt):
@@ -61,6 +61,14 @@ def show_risk_insight(prompt):
 def optimize_margin(prompt):
     return "To improve margin by 2%, consider reducing Personnel and Maintenance by 5% each."
 
+def analyze_product(prompt):
+    for product, info in product_comparisons.items():
+        if product.lower() in prompt.lower():
+            alt_lines = [f"- {alt['name']}: Cost = {alt['cost']}, Performance = {alt['performance']} ({alt['notes']})"
+                         for alt in info["alternatives"]]
+            return f"You asked about **{product}** in the **{info['category']}** category. Here are some alternatives:\n" + "\n".join(alt_lines)
+    return "I couldn't find that product in my comparison database yet. Try another brand or category."
+
 # --- Prompt Input ---
 st.subheader("\U0001F4AC Ask me anything about your IT strategy")
 user_prompt = st.text_input("Type your question or command:", "What is my current IT spend?")
@@ -77,13 +85,16 @@ if st.button("Submit"):
         response = show_risk_insight(user_prompt)
     elif action == "optimize_margin":
         response = optimize_margin(user_prompt)
+    elif action == "analyze_product":
+        response = analyze_product(user_prompt)
     else:
         response = "I'm not sure how to help with that yet, but I'm learning!"
 
     st.success(response)
 
-
-
 # --- Debug Info (optional) ---
 with st.expander("\U0001F527 Simulated Data State"):
     st.write(session_state)
+
+
+
